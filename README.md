@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CBE Transaction Analysis Dashboard
 
-## Getting Started
+A powerful tool to analyze your Commercial Bank of Ethiopia (CBE) transactions by parsing SMS messages and transaction PDFs. This tool provides detailed visualizations and insights into your banking activities.
 
-First, run the development server:
+![Monthly Analysis Dashboard](public/first-dashboard.png)
+![Transaction Reason Table](public/transaction-reason-table.png)
+![Transaction Table](public/monthly-table.png)
+![Transaction Distribution](public/transaction-distribution.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- 📊 Comprehensive transaction analysis
+- 📱 SMS message parsing for both incoming and outgoing transactions
+- 📄 Automatic PDF receipt parsing
+- 💰 Category-based spending analysis
+- 📈 Interactive visualizations including:
+  - Monthly income/expense trends
+  - Category distribution pie charts
+  - Top receivers/senders analysis
+  - Detailed transaction tables
+
+## Prerequisites
+
+### Python Requirements
+- Python 3.8+
+- httpx
+- pypdf
+- sqlite3
+- pandas
+- matplotlib
+- seaborn
+
+### Node.js Requirements
+- Node.js 18+
+- pnpm
+
+### Important Notes
+
+- **Ethiopian IP Address Required**: The PDF parsing functionality only works when running from an Ethiopian IP address due to CBE's regional restrictions
+- **SMS Backup**: You need to export your CBE SMS messages using [SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.jerryzigo.smsbackup)
+
+## Setup Instructions
+
+1. **Export SMS Messages**
+   ```bash
+   # Use SMS Backup & Restore app to export messages
+   # Rename the exported file to sms-file.json
+   ```
+
+2. **Install Python Dependencies**
+   ```bash
+   pip install httpx pypdf pandas matplotlib seaborn
+   ```
+
+3. **Run Transaction Parser**
+   ```bash
+   # Place sms-file.json in the same directory as main.py
+   python main.py
+   ```
+
+4. **Install Node.js Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+5. **Start the Development Server**
+   ```bash
+   pnpm run dev
+   ```
+
+## Project Structure
+
+```
+├── app/
+│   ├── actions/
+│   ├── transactions.ts
+│   │── categories.ts
+│   ├── components/
+│   │   ├── Dashboard.tsx
+│   │   ├── MonthlyTransactions.tsx
+│   │   └── CategoryPieChart.tsx
+│   └── page.tsx
+├── lib/
+│   └── db.ts
+├── main.py
+└── category.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The default analysis starts from October 2024. To modify this, update the date check in `process_messages` function (line 140 in main.py)
+- Category mappings can be customized in `category.json`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Usage
 
-## Learn More
+1. After starting the development server, navigate to:
+   - `http://localhost:3000` for the main dashboard
 
-To learn more about Next.js, take a look at the following resources:
+2. Use the interactive filters and controls to:
+   - Search transactions
+   - Filter by transaction type
+   - Sort by different fields
+   - View different time periods
+   - Analyze category distributions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Extending the Project
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The project is designed to be easily extendable:
 
-## Deploy on Vercel
+1. Add new visualizations:
+   - Create new React components in `app/components`
+   - Add new server actions in `app/actions`
+   - Update the database queries in `lib/db.ts`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Modify transaction processing:
+   - Update the SMS parsing patterns in `main.py`
+   - Add new data extraction logic
+   - Modify the database schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Limitations
+
+- PDF parsing only works with Ethiopian IP addresses
+- Currently optimized for CBE transaction messages
+- Processes transactions from October 2024 onwards by default
+- Requires manual SMS export using SMS Backup & Restore app
+
+
+## Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Thanks to CBE for providing transaction details via SMS
+- SMS Backup & Restore app for easy SMS export functionality
+- All the amazing open-source libraries that made this possible
+
+---
+
+💡 **Tip**: For better insights, maintain consistent categorization of your transactions in the `category.json` file.
+
+For any questions or support, please open an issue on GitHub.
